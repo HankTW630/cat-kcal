@@ -154,6 +154,54 @@ function loadUserData() {
 }
 
 /**
+ * 自動計算(不需要驗證,靜默計算)
+ */
+function autoCalculate() {
+    const weight = parseFloat(document.getElementById('weight').value);
+    const factorRange = document.getElementById('lifestage').value;
+
+    // 如果資料不完整,隱藏結果
+    if (!weight || weight <= 0 || !factorRange) {
+        document.getElementById('results').style.display = 'none';
+        return;
+    }
+
+    // 解析需求因子範圍
+    const [minFactor, maxFactor] = factorRange.split(',').map(parseFloat);
+
+    // 計算RER和DER範圍
+    const rer = calculateRER(weight);
+    const der = calculateDER(rer, minFactor, maxFactor);
+
+    // 顯示結果
+    document.getElementById('rerValue').textContent = rer;
+    document.getElementById('derMinValue').textContent = der.min;
+    document.getElementById('derMaxValue').textContent = der.max;
+
+    // 計算並顯示食材換算
+    // 主食罐
+    const wetFoodMin = convertKcalToGrams(der.min, FOOD_RATIOS.wetFood);
+    const wetFoodMax = convertKcalToGrams(der.max, FOOD_RATIOS.wetFood);
+    document.getElementById('wetFoodMin').textContent = wetFoodMin;
+    document.getElementById('wetFoodMax').textContent = wetFoodMax;
+
+    // 生肉
+    const rawMeatMin = convertKcalToGrams(der.min, FOOD_RATIOS.rawMeat);
+    const rawMeatMax = convertKcalToGrams(der.max, FOOD_RATIOS.rawMeat);
+    document.getElementById('rawMeatMin').textContent = rawMeatMin;
+    document.getElementById('rawMeatMax').textContent = rawMeatMax;
+
+    // 凍乾
+    const freezeDriedMin = convertKcalToGrams(der.min, FOOD_RATIOS.freezeDried);
+    const freezeDriedMax = convertKcalToGrams(der.max, FOOD_RATIOS.freezeDried);
+    document.getElementById('freezeDriedMin').textContent = freezeDriedMin;
+    document.getElementById('freezeDriedMax').textContent = freezeDriedMax;
+
+    // 顯示結果區域
+    document.getElementById('results').style.display = 'block';
+}
+
+/**
  * 驗證數字輸入
  */
 document.addEventListener('DOMContentLoaded', function() {
@@ -163,9 +211,23 @@ document.addEventListener('DOMContentLoaded', function() {
     // 載入儲存的資料
     loadUserData();
 
-    // 監聽輸入變化,自動儲存
+    // 載入後如果有資料就自動計算
+    autoCalculate();
+
+    // 監聽輸入變化,自動儲存並計算
+    weightInput.addEventListener('input', function() {
+        if (this.value < 0) {
+            this.value = 0;
+        }
+        autoCalculate();
+    });
+
     weightInput.addEventListener('change', saveUserData);
-    lifestageSelect.addEventListener('change', saveUserData);
+
+    lifestageSelect.addEventListener('change', function() {
+        saveUserData();
+        autoCalculate();
+    });
 
     // 監聽Enter鍵
     weightInput.addEventListener('keypress', function(e) {
@@ -177,13 +239,6 @@ document.addEventListener('DOMContentLoaded', function() {
     lifestageSelect.addEventListener('keypress', function(e) {
         if (e.key === 'Enter') {
             calculateCalories();
-        }
-    });
-
-    // 限制輸入為正數
-    weightInput.addEventListener('input', function(e) {
-        if (this.value < 0) {
-            this.value = 0;
         }
     });
 });
