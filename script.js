@@ -103,10 +103,69 @@ function calculateCalories() {
 }
 
 /**
+ * localStorage 操作函數
+ * localStorage 在本地文件(file://)也能正常工作
+ */
+function saveData(key, value) {
+    try {
+        localStorage.setItem(key, value);
+    } catch (e) {
+        console.error('無法儲存資料:', e);
+    }
+}
+
+function getData(key) {
+    try {
+        return localStorage.getItem(key);
+    } catch (e) {
+        console.error('無法讀取資料:', e);
+        return null;
+    }
+}
+
+/**
+ * 儲存用戶輸入到 localStorage
+ */
+function saveUserData() {
+    const weight = document.getElementById('weight').value;
+    const lifestage = document.getElementById('lifestage').value;
+
+    if (weight) {
+        saveData('catWeight', weight);
+    }
+    if (lifestage) {
+        saveData('catLifestage', lifestage);
+    }
+}
+
+/**
+ * 從 localStorage 載入用戶資料
+ */
+function loadUserData() {
+    const savedWeight = getData('catWeight');
+    const savedLifestage = getData('catLifestage');
+
+    if (savedWeight) {
+        document.getElementById('weight').value = savedWeight;
+    }
+    if (savedLifestage) {
+        document.getElementById('lifestage').value = savedLifestage;
+    }
+}
+
+/**
  * 驗證數字輸入
  */
 document.addEventListener('DOMContentLoaded', function() {
     const weightInput = document.getElementById('weight');
+    const lifestageSelect = document.getElementById('lifestage');
+
+    // 載入儲存的資料
+    loadUserData();
+
+    // 監聽輸入變化,自動儲存
+    weightInput.addEventListener('change', saveUserData);
+    lifestageSelect.addEventListener('change', saveUserData);
 
     // 監聽Enter鍵
     weightInput.addEventListener('keypress', function(e) {
@@ -115,7 +174,7 @@ document.addEventListener('DOMContentLoaded', function() {
         }
     });
 
-    document.getElementById('lifestage').addEventListener('keypress', function(e) {
+    lifestageSelect.addEventListener('keypress', function(e) {
         if (e.key === 'Enter') {
             calculateCalories();
         }
