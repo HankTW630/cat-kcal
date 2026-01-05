@@ -41,9 +41,11 @@ function calculateCalories() {
     // 獲取輸入值
     const weightInput = document.getElementById('weight');
     const lifestageSelect = document.getElementById('lifestage');
+    const mealsPerDaySelect = document.getElementById('mealsPerDay');
 
     const weight = parseFloat(weightInput.value);
     const factorRange = lifestageSelect.value;
+    const mealsPerDay = parseInt(mealsPerDaySelect.value);
 
     // 驗證輸入
     if (!weight || weight <= 0) {
@@ -81,18 +83,24 @@ function calculateCalories() {
     const wetFoodMax = convertKcalToGrams(der.max, FOOD_RATIOS.wetFood);
     document.getElementById('wetFoodMin').textContent = wetFoodMin;
     document.getElementById('wetFoodMax').textContent = wetFoodMax;
+    document.getElementById('wetFoodPerMealMin').textContent = Math.round(wetFoodMin / mealsPerDay);
+    document.getElementById('wetFoodPerMealMax').textContent = Math.round(wetFoodMax / mealsPerDay);
 
     // 生肉
     const rawMeatMin = convertKcalToGrams(der.min, FOOD_RATIOS.rawMeat);
     const rawMeatMax = convertKcalToGrams(der.max, FOOD_RATIOS.rawMeat);
     document.getElementById('rawMeatMin').textContent = rawMeatMin;
     document.getElementById('rawMeatMax').textContent = rawMeatMax;
+    document.getElementById('rawMeatPerMealMin').textContent = Math.round(rawMeatMin / mealsPerDay);
+    document.getElementById('rawMeatPerMealMax').textContent = Math.round(rawMeatMax / mealsPerDay);
 
     // 凍乾
     const freezeDriedMin = convertKcalToGrams(der.min, FOOD_RATIOS.freezeDried);
     const freezeDriedMax = convertKcalToGrams(der.max, FOOD_RATIOS.freezeDried);
     document.getElementById('freezeDriedMin').textContent = freezeDriedMin;
     document.getElementById('freezeDriedMax').textContent = freezeDriedMax;
+    document.getElementById('freezeDriedPerMealMin').textContent = Math.round(freezeDriedMin / mealsPerDay);
+    document.getElementById('freezeDriedPerMealMax').textContent = Math.round(freezeDriedMax / mealsPerDay);
 
     // 顯示結果區域
     const resultsSection = document.getElementById('results');
@@ -129,12 +137,16 @@ function getData(key) {
 function saveUserData() {
     const weight = document.getElementById('weight').value;
     const lifestage = document.getElementById('lifestage').value;
+    const mealsPerDay = document.getElementById('mealsPerDay').value;
 
     if (weight) {
         saveData('catWeight', weight);
     }
     if (lifestage) {
         saveData('catLifestage', lifestage);
+    }
+    if (mealsPerDay) {
+        saveData('catMealsPerDay', mealsPerDay);
     }
 }
 
@@ -144,12 +156,16 @@ function saveUserData() {
 function loadUserData() {
     const savedWeight = getData('catWeight');
     const savedLifestage = getData('catLifestage');
+    const savedMealsPerDay = getData('catMealsPerDay');
 
     if (savedWeight) {
         document.getElementById('weight').value = savedWeight;
     }
     if (savedLifestage) {
         document.getElementById('lifestage').value = savedLifestage;
+    }
+    if (savedMealsPerDay) {
+        document.getElementById('mealsPerDay').value = savedMealsPerDay;
     }
 }
 
@@ -159,6 +175,7 @@ function loadUserData() {
 function autoCalculate() {
     const weight = parseFloat(document.getElementById('weight').value);
     const factorRange = document.getElementById('lifestage').value;
+    const mealsPerDay = parseInt(document.getElementById('mealsPerDay').value);
 
     // 如果資料不完整,隱藏結果
     if (!weight || weight <= 0 || !factorRange) {
@@ -184,18 +201,24 @@ function autoCalculate() {
     const wetFoodMax = convertKcalToGrams(der.max, FOOD_RATIOS.wetFood);
     document.getElementById('wetFoodMin').textContent = wetFoodMin;
     document.getElementById('wetFoodMax').textContent = wetFoodMax;
+    document.getElementById('wetFoodPerMealMin').textContent = Math.round(wetFoodMin / mealsPerDay);
+    document.getElementById('wetFoodPerMealMax').textContent = Math.round(wetFoodMax / mealsPerDay);
 
     // 生肉
     const rawMeatMin = convertKcalToGrams(der.min, FOOD_RATIOS.rawMeat);
     const rawMeatMax = convertKcalToGrams(der.max, FOOD_RATIOS.rawMeat);
     document.getElementById('rawMeatMin').textContent = rawMeatMin;
     document.getElementById('rawMeatMax').textContent = rawMeatMax;
+    document.getElementById('rawMeatPerMealMin').textContent = Math.round(rawMeatMin / mealsPerDay);
+    document.getElementById('rawMeatPerMealMax').textContent = Math.round(rawMeatMax / mealsPerDay);
 
     // 凍乾
     const freezeDriedMin = convertKcalToGrams(der.min, FOOD_RATIOS.freezeDried);
     const freezeDriedMax = convertKcalToGrams(der.max, FOOD_RATIOS.freezeDried);
     document.getElementById('freezeDriedMin').textContent = freezeDriedMin;
     document.getElementById('freezeDriedMax').textContent = freezeDriedMax;
+    document.getElementById('freezeDriedPerMealMin').textContent = Math.round(freezeDriedMin / mealsPerDay);
+    document.getElementById('freezeDriedPerMealMax').textContent = Math.round(freezeDriedMax / mealsPerDay);
 
     // 顯示結果區域
     document.getElementById('results').style.display = 'block';
@@ -207,6 +230,7 @@ function autoCalculate() {
 document.addEventListener('DOMContentLoaded', function() {
     const weightInput = document.getElementById('weight');
     const lifestageSelect = document.getElementById('lifestage');
+    const mealsPerDaySelect = document.getElementById('mealsPerDay');
 
     // 載入儲存的資料
     loadUserData();
@@ -229,6 +253,11 @@ document.addEventListener('DOMContentLoaded', function() {
         autoCalculate();
     });
 
+    mealsPerDaySelect.addEventListener('change', function() {
+        saveUserData();
+        autoCalculate();
+    });
+
     // 監聽Enter鍵
     weightInput.addEventListener('keypress', function(e) {
         if (e.key === 'Enter') {
@@ -237,6 +266,12 @@ document.addEventListener('DOMContentLoaded', function() {
     });
 
     lifestageSelect.addEventListener('keypress', function(e) {
+        if (e.key === 'Enter') {
+            calculateCalories();
+        }
+    });
+
+    mealsPerDaySelect.addEventListener('keypress', function(e) {
         if (e.key === 'Enter') {
             calculateCalories();
         }

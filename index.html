@@ -34,6 +34,19 @@
                         <option value="1.1,1.6">11歲以上高齡貓</option>
                     </select>
                 </div>
+
+                <h2>Step 3: 一天進食幾餐</h2>
+                <div class="input-group">
+                    <label for="mealsPerDay">每日餐數</label>
+                    <select id="mealsPerDay">
+                        <option value="1">1餐</option>
+                        <option value="2" selected>2餐</option>
+                        <option value="3">3餐</option>
+                        <option value="4">4餐</option>
+                        <option value="5">5餐</option>
+                        <option value="6">6餐</option>
+                    </select>
+                </div>
             </div>
 
             <div class="results-section" id="results" style="display: none;">
@@ -68,6 +81,10 @@
                                 <span id="wetFoodMin">0</span> - <span id="wetFoodMax">0</span>
                                 <span class="food-unit">g/天</span>
                             </div>
+                            <div class="food-per-meal">
+                                每餐: <span id="wetFoodPerMealMin">0</span> - <span id="wetFoodPerMealMax">0</span>
+                                <span class="food-unit">g</span>
+                            </div>
                         </div>
 
                         <div class="food-item">
@@ -78,6 +95,10 @@
                                 <span id="rawMeatMin">0</span> - <span id="rawMeatMax">0</span>
                                 <span class="food-unit">g/天</span>
                             </div>
+                            <div class="food-per-meal">
+                                每餐: <span id="rawMeatPerMealMin">0</span> - <span id="rawMeatPerMealMax">0</span>
+                                <span class="food-unit">g</span>
+                            </div>
                         </div>
 
                         <div class="food-item">
@@ -87,6 +108,10 @@
                             <div class="food-amount">
                                 <span id="freezeDriedMin">0</span> - <span id="freezeDriedMax">0</span>
                                 <span class="food-unit">g/天</span>
+                            </div>
+                            <div class="food-per-meal">
+                                每餐: <span id="freezeDriedPerMealMin">0</span> - <span id="freezeDriedPerMealMax">0</span>
+                                <span class="food-unit">g</span>
                             </div>
                         </div>
                     </div>

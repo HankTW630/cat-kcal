@@ -327,6 +327,13 @@ header h1 {
     font-weight: 400;
 }
 
+.food-per-meal {
+    font-size: 0.95rem;
+    color: #764ba2;
+    margin-top: 8px;
+    font-weight: 500;
+}
+
 /* 手動計算器 */
 .manual-calculator {
     background: white;
