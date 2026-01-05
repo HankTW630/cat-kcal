@@ -1,0 +1,183 @@
+<!DOCTYPE html>
+<html lang="zh-TW">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>貓咪熱量計算器</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <div class="container">
+        <header>
+            <h1>🐱 貓咪熱量計算器</h1>
+            <p class="subtitle">計算您的貓咪每日所需熱量</p>
+        </header>
+
+        <div class="calculator-card">
+            <div class="input-section">
+                <h2>Step 1: 輸入貓咪體重</h2>
+                <div class="input-group">
+                    <label for="weight">體重（公斤）</label>
+                    <input type="number" id="weight" min="0.1" max="20" step="0.1" placeholder="例如: 4.5">
+                </div>
+
+                <h2>Step 2: 選擇貓咪狀態</h2>
+                <div class="input-group">
+                    <label for="lifestage">生活階段</label>
+                    <select id="lifestage">
+                        <option value="">請選擇...</option>
+                        <option value="2.0,2.5">發育期（幼貓）</option>
+                        <option value="1.4,1.6">未結紮成貓</option>
+                        <option value="1.2,1.4">已結紮成貓</option>
+                        <option value="0.8,1.0">過胖（需減重）</option>
+                        <option value="1.2,1.8">過瘦（需增重）</option>
+                        <option value="1.1,1.6">11歲以上高齡貓</option>
+                    </select>
+                </div>
+
+                <button id="calculateBtn" onclick="calculateCalories()">計算熱量</button>
+            </div>
+
+            <div class="results-section" id="results" style="display: none;">
+                <h2>計算結果</h2>
+
+                <div class="result-card">
+                    <div class="result-label">靜止能量需求（RER）</div>
+                    <div class="result-value">
+                        <span id="rerValue">0</span> <span class="unit">kcal/天</span>
+                    </div>
+                    <p class="result-description">這是貓咪完全休息狀態下的基礎熱量需求</p>
+                </div>
+
+                <div class="result-card highlight">
+                    <div class="result-label">每日熱量需求（DER）</div>
+                    <div class="result-value main">
+                        <span id="derMinValue">0</span> - <span id="derMaxValue">0</span> <span class="unit">kcal/天</span>
+                    </div>
+                    <p class="result-description">這是貓咪每日應該攝取的總熱量範圍</p>
+                </div>
+
+                <div class="info-box">
+                    <h3>💡 使用說明</h3>
+                    <ul>
+                        <li>請根據計算結果安排貓咪的每日飲食</li>
+                        <li>建議將每日總量分成2-3餐餵食</li>
+                        <li>若貓咪患有特殊疾病，請諮詢獸醫師</li>
+                        <li>定期監測體重並調整飲食量</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+
+        <div class="reference-section">
+            <h3>參考對照表</h3>
+            <div class="table-wrapper">
+                <table class="reference-table">
+                    <thead>
+                        <tr>
+                            <th>體重（kg）</th>
+                            <th>RER（kcal/天）</th>
+                            <th>體重（kg）</th>
+                            <th>RER（kcal/天）</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td>1</td>
+                            <td>70</td>
+                            <td>9</td>
+                            <td>364</td>
+                        </tr>
+                        <tr>
+                            <td>2</td>
+                            <td>118</td>
+                            <td>10</td>
+                            <td>394</td>
+                        </tr>
+                        <tr>
+                            <td>3</td>
+                            <td>160</td>
+                            <td>11</td>
+                            <td>423</td>
+                        </tr>
+                        <tr>
+                            <td>4</td>
+                            <td>198</td>
+                            <td>12</td>
+                            <td>451</td>
+                        </tr>
+                        <tr>
+                            <td>5</td>
+                            <td>234</td>
+                            <td>13</td>
+                            <td>479</td>
+                        </tr>
+                        <tr>
+                            <td>6</td>
+                            <td>268</td>
+                            <td>14</td>
+                            <td>507</td>
+                        </tr>
+                        <tr>
+                            <td>7</td>
+                            <td>301</td>
+                            <td>15</td>
+                            <td>533</td>
+                        </tr>
+                        <tr>
+                            <td>8</td>
+                            <td>333</td>
+                            <td></td>
+                            <td></td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+
+            <div class="factor-table">
+                <h3>需求因子參考</h3>
+                <table class="reference-table">
+                    <thead>
+                        <tr>
+                            <th>貓咪階段</th>
+                            <th>需求因子範圍</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td>發育期（幼貓）</td>
+                            <td>2.0 - 2.5</td>
+                        </tr>
+                        <tr>
+                            <td>未結紮成貓</td>
+                            <td>1.4 - 1.6</td>
+                        </tr>
+                        <tr>
+                            <td>已結紮成貓</td>
+                            <td>1.2 - 1.4</td>
+                        </tr>
+                        <tr>
+                            <td>過胖（需減重）</td>
+                            <td>0.8 - 1.0</td>
+                        </tr>
+                        <tr>
+                            <td>過瘦（需增重）</td>
+                            <td>1.2 - 1.8</td>
+                        </tr>
+                        <tr>
+                            <td>11歲以上高齡貓</td>
+                            <td>1.1 - 1.6</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+
+        <footer>
+            <p>⚠️ 注意:若貓咪患有腎臟病等特殊疾病,請諮詢專業獸醫師</p>
+        </footer>
+    </div>
+
+    <script src="script.js"></script>
+</body>
+</html>
