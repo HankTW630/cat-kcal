@@ -63,7 +63,7 @@
                         <div class="food-item">
                             <div class="food-icon">🥫</div>
                             <div class="food-name">主食罐</div>
-                            <div class="food-ratio">1g ≈ 1 kcal</div>
+                            <div class="food-ratio">100g ≈ 100 kcal</div>
                             <div class="food-amount">
                                 <span id="wetFoodMin">0</span> - <span id="wetFoodMax">0</span>
                                 <span class="food-unit">g/天</span>
@@ -73,7 +73,7 @@
                         <div class="food-item">
                             <div class="food-icon">🥩</div>
                             <div class="food-name">生肉</div>
-                            <div class="food-ratio">1g ≈ 1.5 kcal</div>
+                            <div class="food-ratio">100g ≈ 150 kcal</div>
                             <div class="food-amount">
                                 <span id="rawMeatMin">0</span> - <span id="rawMeatMax">0</span>
                                 <span class="food-unit">g/天</span>
@@ -83,7 +83,7 @@
                         <div class="food-item">
                             <div class="food-icon">🍖</div>
                             <div class="food-name">凍乾</div>
-                            <div class="food-ratio">1g ≈ 4 kcal</div>
+                            <div class="food-ratio">100g ≈ 400 kcal</div>
                             <div class="food-amount">
                                 <span id="freezeDriedMin">0</span> - <span id="freezeDriedMax">0</span>
                                 <span class="food-unit">g/天</span>
@@ -105,7 +105,7 @@
                         <span>主食罐（g）</span>
                     </label>
                     <input type="number" id="wetFoodInput" min="0" step="1" placeholder="0" value="0">
-                    <span class="input-hint">1g = 1 kcal</span>
+                    <span class="input-hint">100g = 100 kcal</span>
                 </div>
 
                 <div class="manual-input-group">
@@ -114,7 +114,7 @@
                         <span>生肉（g）</span>
                     </label>
                     <input type="number" id="rawMeatInput" min="0" step="1" placeholder="0" value="0">
-                    <span class="input-hint">1g = 1.5 kcal</span>
+                    <span class="input-hint">100g = 150 kcal</span>
                 </div>
 
                 <div class="manual-input-group">
@@ -123,7 +123,20 @@
                         <span>凍乾（g）</span>
                     </label>
                     <input type="number" id="freezeDriedInput" min="0" step="1" placeholder="0" value="0">
-                    <span class="input-hint">1g = 4 kcal</span>
+                    <span class="input-hint">100g = 400 kcal</span>
+                </div>
+
+                <div class="manual-input-group custom-food">
+                    <label for="customFoodInput">
+                        <span class="label-icon">🍽️</span>
+                        <span>自訂食材（g）</span>
+                    </label>
+                    <input type="number" id="customFoodInput" min="0" step="1" placeholder="0" value="0">
+                    <div class="custom-ratio-input">
+                        <span class="ratio-label">100g =</span>
+                        <input type="number" id="customRatioInput" min="0" step="1" placeholder="100" value="100">
+                        <span class="ratio-label">kcal</span>
+                    </div>
                 </div>
             </div>
 
@@ -143,6 +156,10 @@
                     <div class="breakdown-item">
                         <span>凍乾:</span>
                         <span><span id="freezeDriedKcal">0</span> kcal</span>
+                    </div>
+                    <div class="breakdown-item">
+                        <span>自訂食材:</span>
+                        <span><span id="customFoodKcal">0</span> kcal</span>
                     </div>
                     <div class="breakdown-total">
                         <span>總熱量:</span>

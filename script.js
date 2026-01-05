@@ -244,32 +244,32 @@ document.addEventListener('DOMContentLoaded', function() {
 });
 
 /**
- * 食材熱量比率（kcal/g）
+ * 食材熱量比率（kcal/100g）
  */
 const FOOD_RATIOS = {
-    wetFood: 1,      // 主食罐: 1g = 1 kcal
-    rawMeat: 1.5,    // 生肉: 1g = 1.5 kcal
-    freezeDried: 4   // 凍乾: 1g = 4 kcal
+    wetFood: 100,      // 主食罐: 100g = 100 kcal
+    rawMeat: 150,      // 生肉: 100g = 150 kcal
+    freezeDried: 400   // 凍乾: 100g = 400 kcal
 };
 
 /**
  * 將熱量轉換為食材重量
  * @param {number} kcal - 熱量（kcal）
- * @param {number} ratio - 熱量比率（kcal/g）
+ * @param {number} ratio - 熱量比率（kcal/100g）
  * @returns {number} 食材重量（g）
  */
 function convertKcalToGrams(kcal, ratio) {
-    return Math.round(kcal / ratio);
+    return Math.round((kcal / ratio) * 100);
 }
 
 /**
  * 將食材重量轉換為熱量
  * @param {number} grams - 食材重量（g）
- * @param {number} ratio - 熱量比率（kcal/g）
+ * @param {number} ratio - 熱量比率（kcal/100g）
  * @returns {number} 熱量（kcal）
  */
 function convertGramsToKcal(grams, ratio) {
-    return Math.round(grams * ratio);
+    return Math.round((grams / 100) * ratio);
 }
 
 /**
@@ -280,19 +280,23 @@ function calculateManualCalories() {
     const wetFoodGrams = parseFloat(document.getElementById('wetFoodInput').value) || 0;
     const rawMeatGrams = parseFloat(document.getElementById('rawMeatInput').value) || 0;
     const freezeDriedGrams = parseFloat(document.getElementById('freezeDriedInput').value) || 0;
+    const customFoodGrams = parseFloat(document.getElementById('customFoodInput').value) || 0;
+    const customRatio = parseFloat(document.getElementById('customRatioInput').value) || 1;
 
     // 計算各食材熱量
     const wetFoodKcal = convertGramsToKcal(wetFoodGrams, FOOD_RATIOS.wetFood);
     const rawMeatKcal = convertGramsToKcal(rawMeatGrams, FOOD_RATIOS.rawMeat);
     const freezeDriedKcal = convertGramsToKcal(freezeDriedGrams, FOOD_RATIOS.freezeDried);
+    const customFoodKcal = convertGramsToKcal(customFoodGrams, customRatio);
 
     // 計算總熱量
-    const totalKcal = wetFoodKcal + rawMeatKcal + freezeDriedKcal;
+    const totalKcal = wetFoodKcal + rawMeatKcal + freezeDriedKcal + customFoodKcal;
 
     // 顯示結果
     document.getElementById('wetFoodKcal').textContent = wetFoodKcal;
     document.getElementById('rawMeatKcal').textContent = rawMeatKcal;
     document.getElementById('freezeDriedKcal').textContent = freezeDriedKcal;
+    document.getElementById('customFoodKcal').textContent = customFoodKcal;
     document.getElementById('totalKcal').textContent = totalKcal;
 
     // 顯示結果區域

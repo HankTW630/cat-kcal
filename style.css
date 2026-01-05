@@ -386,6 +386,41 @@ header h1 {
     margin-top: 5px;
 }
 
+.custom-food {
+    background: linear-gradient(135deg, #fff9e6 0%, #ffe8f0 100%);
+    padding: 15px;
+    border-radius: 10px;
+    border: 2px dashed #f093fb;
+}
+
+.custom-ratio-input {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    margin-top: 8px;
+}
+
+.ratio-label {
+    font-size: 0.9rem;
+    color: #666;
+    font-weight: 500;
+}
+
+.custom-ratio-input input {
+    width: 80px;
+    padding: 8px 10px;
+    border: 2px solid #e0e0e0;
+    border-radius: 8px;
+    font-size: 1rem;
+    text-align: center;
+}
+
+.custom-ratio-input input:focus {
+    outline: none;
+    border-color: #f093fb;
+    box-shadow: 0 0 0 3px rgba(240, 147, 251, 0.1);
+}
+
 .calculate-btn {
     width: 100%;
     padding: 15px;
