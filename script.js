@@ -75,6 +75,25 @@ function calculateCalories() {
     document.getElementById('derMinValue').textContent = der.min;
     document.getElementById('derMaxValue').textContent = der.max;
 
+    // 計算並顯示食材換算
+    // 主食罐
+    const wetFoodMin = convertKcalToGrams(der.min, FOOD_RATIOS.wetFood);
+    const wetFoodMax = convertKcalToGrams(der.max, FOOD_RATIOS.wetFood);
+    document.getElementById('wetFoodMin').textContent = wetFoodMin;
+    document.getElementById('wetFoodMax').textContent = wetFoodMax;
+
+    // 生肉
+    const rawMeatMin = convertKcalToGrams(der.min, FOOD_RATIOS.rawMeat);
+    const rawMeatMax = convertKcalToGrams(der.max, FOOD_RATIOS.rawMeat);
+    document.getElementById('rawMeatMin').textContent = rawMeatMin;
+    document.getElementById('rawMeatMax').textContent = rawMeatMax;
+
+    // 凍乾
+    const freezeDriedMin = convertKcalToGrams(der.min, FOOD_RATIOS.freezeDried);
+    const freezeDriedMax = convertKcalToGrams(der.max, FOOD_RATIOS.freezeDried);
+    document.getElementById('freezeDriedMin').textContent = freezeDriedMin;
+    document.getElementById('freezeDriedMax').textContent = freezeDriedMax;
+
     // 顯示結果區域
     const resultsSection = document.getElementById('results');
     resultsSection.style.display = 'block';
@@ -109,6 +128,66 @@ document.addEventListener('DOMContentLoaded', function() {
         }
     });
 });
+
+/**
+ * 食材熱量比率（kcal/g）
+ */
+const FOOD_RATIOS = {
+    wetFood: 1,      // 主食罐: 1g = 1 kcal
+    rawMeat: 1.5,    // 生肉: 1g = 1.5 kcal
+    freezeDried: 4   // 凍乾: 1g = 4 kcal
+};
+
+/**
+ * 將熱量轉換為食材重量
+ * @param {number} kcal - 熱量（kcal）
+ * @param {number} ratio - 熱量比率（kcal/g）
+ * @returns {number} 食材重量（g）
+ */
+function convertKcalToGrams(kcal, ratio) {
+    return Math.round(kcal / ratio);
+}
+
+/**
+ * 將食材重量轉換為熱量
+ * @param {number} grams - 食材重量（g）
+ * @param {number} ratio - 熱量比率（kcal/g）
+ * @returns {number} 熱量（kcal）
+ */
+function convertGramsToKcal(grams, ratio) {
+    return Math.round(grams * ratio);
+}
+
+/**
+ * 手動計算食材總熱量
+ */
+function calculateManualCalories() {
+    // 獲取輸入值
+    const wetFoodGrams = parseFloat(document.getElementById('wetFoodInput').value) || 0;
+    const rawMeatGrams = parseFloat(document.getElementById('rawMeatInput').value) || 0;
+    const freezeDriedGrams = parseFloat(document.getElementById('freezeDriedInput').value) || 0;
+
+    // 計算各食材熱量
+    const wetFoodKcal = convertGramsToKcal(wetFoodGrams, FOOD_RATIOS.wetFood);
+    const rawMeatKcal = convertGramsToKcal(rawMeatGrams, FOOD_RATIOS.rawMeat);
+    const freezeDriedKcal = convertGramsToKcal(freezeDriedGrams, FOOD_RATIOS.freezeDried);
+
+    // 計算總熱量
+    const totalKcal = wetFoodKcal + rawMeatKcal + freezeDriedKcal;
+
+    // 顯示結果
+    document.getElementById('wetFoodKcal').textContent = wetFoodKcal;
+    document.getElementById('rawMeatKcal').textContent = rawMeatKcal;
+    document.getElementById('freezeDriedKcal').textContent = freezeDriedKcal;
+    document.getElementById('totalKcal').textContent = totalKcal;
+
+    // 顯示結果區域
+    const resultSection = document.getElementById('manualResult');
+    resultSection.style.display = 'block';
+
+    // 平滑滾動到結果
+    resultSection.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+}
 
 /**
  * 參考數據對照（用於驗證計算）

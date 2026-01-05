@@ -57,14 +57,99 @@
                     <p class="result-description">這是貓咪每日應該攝取的總熱量範圍</p>
                 </div>
 
-                <div class="info-box">
-                    <h3>💡 使用說明</h3>
-                    <ul>
-                        <li>請根據計算結果安排貓咪的每日飲食</li>
-                        <li>建議將每日總量分成2-3餐餵食</li>
-                        <li>若貓咪患有特殊疾病，請諮詢獸醫師</li>
-                        <li>定期監測體重並調整飲食量</li>
-                    </ul>
+                <div class="food-conversion">
+                    <h3>📊 食材份量換算</h3>
+                    <p class="conversion-note">根據DER範圍,各食材所需份量:</p>
+
+                    <div class="food-grid">
+                        <div class="food-item">
+                            <div class="food-icon">🥫</div>
+                            <div class="food-name">主食罐</div>
+                            <div class="food-ratio">1g ≈ 1 kcal</div>
+                            <div class="food-amount">
+                                <span id="wetFoodMin">0</span> - <span id="wetFoodMax">0</span>
+                                <span class="food-unit">g/天</span>
+                            </div>
+                        </div>
+
+                        <div class="food-item">
+                            <div class="food-icon">🥩</div>
+                            <div class="food-name">生肉</div>
+                            <div class="food-ratio">1g ≈ 1.5 kcal</div>
+                            <div class="food-amount">
+                                <span id="rawMeatMin">0</span> - <span id="rawMeatMax">0</span>
+                                <span class="food-unit">g/天</span>
+                            </div>
+                        </div>
+
+                        <div class="food-item">
+                            <div class="food-icon">🍖</div>
+                            <div class="food-name">凍乾</div>
+                            <div class="food-ratio">1g ≈ 4 kcal</div>
+                            <div class="food-amount">
+                                <span id="freezeDriedMin">0</span> - <span id="freezeDriedMax">0</span>
+                                <span class="food-unit">g/天</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="manual-calculator">
+            <h2>🧮 手動食材計算器</h2>
+            <p class="subtitle-small">輸入各食材重量,計算總熱量</p>
+
+            <div class="manual-inputs">
+                <div class="manual-input-group">
+                    <label for="wetFoodInput">
+                        <span class="label-icon">🥫</span>
+                        <span>主食罐（g）</span>
+                    </label>
+                    <input type="number" id="wetFoodInput" min="0" step="1" placeholder="0" value="0">
+                    <span class="input-hint">1g = 1 kcal</span>
+                </div>
+
+                <div class="manual-input-group">
+                    <label for="rawMeatInput">
+                        <span class="label-icon">🥩</span>
+                        <span>生肉（g）</span>
+                    </label>
+                    <input type="number" id="rawMeatInput" min="0" step="1" placeholder="0" value="0">
+                    <span class="input-hint">1g = 1.5 kcal</span>
+                </div>
+
+                <div class="manual-input-group">
+                    <label for="freezeDriedInput">
+                        <span class="label-icon">🍖</span>
+                        <span>凍乾（g）</span>
+                    </label>
+                    <input type="number" id="freezeDriedInput" min="0" step="1" placeholder="0" value="0">
+                    <span class="input-hint">1g = 4 kcal</span>
+                </div>
+            </div>
+
+            <button class="calculate-btn secondary" onclick="calculateManualCalories()">計算總熱量</button>
+
+            <div class="manual-result" id="manualResult" style="display: none;">
+                <div class="manual-result-breakdown">
+                    <h3>熱量明細</h3>
+                    <div class="breakdown-item">
+                        <span>主食罐:</span>
+                        <span><span id="wetFoodKcal">0</span> kcal</span>
+                    </div>
+                    <div class="breakdown-item">
+                        <span>生肉:</span>
+                        <span><span id="rawMeatKcal">0</span> kcal</span>
+                    </div>
+                    <div class="breakdown-item">
+                        <span>凍乾:</span>
+                        <span><span id="freezeDriedKcal">0</span> kcal</span>
+                    </div>
+                    <div class="breakdown-total">
+                        <span>總熱量:</span>
+                        <span><span id="totalKcal">0</span> kcal</span>
+                    </div>
                 </div>
             </div>
         </div>
